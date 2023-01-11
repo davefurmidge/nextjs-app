@@ -5,7 +5,8 @@ import styles from '../styles/Home.module.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
+export default function Home({ data }: { data: { time: string } }) {
+  const serverData = JSON.parse(data);
   return (
     <>
       <Head>
@@ -15,6 +16,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
+      <h1 className={styles.title}>
+                    Welcome to <a href="https://nextjs.org">Next.js! The time is {serverData.time}</a>
+                </h1>
         <div className={styles.description}>
           <p>
             Get started by editing&nbsp;
@@ -120,4 +124,8 @@ export default function Home() {
       </main>
     </>
   )
+}
+export async function getServerSideProps() {
+  const data = JSON.stringify({ time: new Date() });
+  return { props: { data } };
 }
